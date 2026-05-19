@@ -169,7 +169,6 @@ export default function Home() {
   const statRefs = useRef<(HTMLSpanElement | null)[]>([])
   const statsLineRef = useRef<HTMLDivElement>(null)
   const testimonialsSectionRef = useRef<HTMLElement>(null)
-  const testimonialsTrackRef = useRef<HTMLDivElement>(null)
 
   // Hero pinned scroll + orb animation
   useEffect(() => {
@@ -277,25 +276,20 @@ export default function Home() {
     return () => ctx.revert()
   }, [])
 
-  // Testimonials horizontal scroll
+  // Testimonials staggered reveal
   useEffect(() => {
     const section = testimonialsSectionRef.current
-    const track = testimonialsTrackRef.current
-    if (!section || !track || window.innerWidth < 768) return
+    if (!section) return
 
     const ctx = gsap.context(() => {
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth + 100),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+      ScrollTrigger.batch('.testimonial-card', {
+        onEnter: (batch) =>
+          gsap.fromTo(
+            batch,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.12, duration: 0.8, ease: 'power3.out' }
+          ),
+        start: 'top 88%',
       })
     })
 
@@ -303,7 +297,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="bg-black text-[var(--text-primary)] min-h-screen relative z-[1] overflow-x-hidden">
+    <main className="bg-black text-[var(--text-primary)] min-h-screen relative z-[1]">
 
       {/* ── Section 1: Hero ─────────────────────────────────────────── */}
       <section ref={heroRef} className="min-h-screen flex items-center justify-center px-6 pt-32 pb-20 relative overflow-hidden">
@@ -458,40 +452,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Section 5: Testimonials (Horizontal Scroll) ──────────────── */}
-      <section ref={testimonialsSectionRef} className="relative min-h-screen overflow-hidden">
-        <div className="h-full flex items-center">
-          <div ref={testimonialsTrackRef} className="flex items-center gap-8 px-6 md:px-12 will-change-transform">
-            {/* Section title as first card */}
-            <div className="min-w-[300px] md:min-w-[400px] flex-shrink-0">
-              <h2 className="font-display text-5xl lg:text-6xl font-bold leading-tight">
-                Loved by<br />developers
-              </h2>
-              <p className="text-[var(--text-secondary)] mt-4">See what our users say</p>
-            </div>
+      {/* ── Section 5: Testimonials ──────────────────────────────────── */}
+      <section ref={testimonialsSectionRef} className="py-40 lg:py-48">
+        <div className="max-w-7xl mx-auto px-6">
+          <ScrollReveal className="mb-20 lg:mb-24 text-center">
+            <h2 className="font-display text-5xl lg:text-6xl font-bold">Loved by developers</h2>
+            <p className="text-[var(--text-secondary)] mt-4 text-lg">See what our users say</p>
+          </ScrollReveal>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t) => (
               <div
                 key={t.name}
-                className="min-w-[380px] md:min-w-[480px] flex-shrink-0 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-2xl p-8 md:p-10 relative overflow-hidden group"
+                className="testimonial-card bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-2xl p-8 relative overflow-hidden"
+                style={{ opacity: 0 }}
               >
-                <span className="absolute top-4 right-6 font-display text-8xl text-white/[0.03] leading-none select-none pointer-events-none" aria-hidden="true">
+                <span className="absolute top-4 right-6 font-display text-7xl text-white/[0.03] leading-none select-none pointer-events-none" aria-hidden="true">
                   &ldquo;
                 </span>
-                <p className="text-lg text-white/80 leading-relaxed relative">&ldquo;{t.quote}&rdquo;</p>
-                <hr className="border-[var(--border-subtle)] my-6" />
-                <div className="flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex-shrink-0" />
+                <p className="text-white/80 leading-relaxed relative">&ldquo;{t.quote}&rdquo;</p>
+                <hr className="border-[var(--border-subtle)] my-5" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold">{t.name}</div>
-                    <div className="text-[var(--text-tertiary)] text-sm">{t.role}</div>
+                    <div className="font-semibold text-sm">{t.name}</div>
+                    <div className="text-[var(--text-tertiary)] text-xs">{t.role}</div>
                   </div>
                 </div>
               </div>
             ))}
-
-            {/* End spacer */}
-            <div className="min-w-[100px] flex-shrink-0" aria-hidden="true" />
           </div>
         </div>
       </section>
