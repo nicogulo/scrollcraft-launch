@@ -1,15 +1,23 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/navbar'
 import CustomCursor from '@/components/custom-cursor'
+import SmoothScroll from '@/components/smooth-scroll'
+import GridLines from '@/components/grid-lines'
 
-// Use system sans-serif as fallback (no Google Fonts dependency)
-const systemSans = localFont({
+const geistSans = localFont({
   src: '../public/geist-latin.woff2',
   variable: '--font-sans',
   display: 'swap',
   fallback: ['system-ui', '-apple-system', 'sans-serif'],
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-display',
 })
 
 export const metadata: Metadata = {
@@ -23,11 +31,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${systemSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${spaceGrotesk.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-black font-sans">
         <CustomCursor />
         <Navbar />
-        {children}
+        <GridLines />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   )

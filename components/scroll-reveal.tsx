@@ -20,6 +20,13 @@ const clipFrom: Record<string, string> = {
   right: 'inset(0 0 0 100%)',
 }
 
+const yFrom: Record<string, number> = {
+  up: 40,
+  down: -40,
+  left: 0,
+  right: 0,
+}
+
 export default function ScrollReveal({
   children,
   className = '',
@@ -35,10 +42,14 @@ export default function ScrollReveal({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,
-        { clipPath: clipFrom[direction] },
+        {
+          clipPath: clipFrom[direction],
+          y: yFrom[direction],
+        },
         {
           clipPath: 'inset(0% 0 0% 0)',
-          duration: 0.9,
+          y: 0,
+          duration: 1.0,
           delay,
           ease: 'power3.out',
           scrollTrigger: {
@@ -54,7 +65,11 @@ export default function ScrollReveal({
   }, [direction, delay])
 
   return (
-    <div ref={ref} className={className} style={{ clipPath: clipFrom[direction] }}>
+    <div
+      ref={ref}
+      className={className}
+      style={{ clipPath: clipFrom[direction], transform: `translateY(${yFrom[direction]}px)` }}
+    >
       {children}
     </div>
   )

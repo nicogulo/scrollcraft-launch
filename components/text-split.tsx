@@ -30,10 +30,11 @@ export default function TextSplit({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         words,
-        { y: '100%' },
+        { y: '110%', rotateX: 45 },
         {
           y: '0%',
-          duration: 0.7,
+          rotateX: 0,
+          duration: 0.85,
           delay,
           ease: 'power3.out',
           stagger,
@@ -52,14 +53,18 @@ export default function TextSplit({
   const words = text.split(' ')
 
   return (
-    <div ref={ref} className={className} aria-label={text}>
+    <div ref={ref} className={className} aria-label={text} style={{ perspective: '500px' }}>
       {words.map((word, i) => (
         <span
           key={i}
           className="inline-block overflow-hidden"
           style={{ marginRight: i < words.length - 1 ? '0.25em' : 0 }}
         >
-          <span data-word className="inline-block" style={{ transform: 'translateY(100%)' }}>
+          <span
+            data-word
+            className="inline-block"
+            style={{ transform: 'translateY(110%) rotateX(45deg)', transformOrigin: 'bottom' }}
+          >
             {word}
           </span>
         </span>
