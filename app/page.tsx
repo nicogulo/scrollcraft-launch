@@ -528,8 +528,10 @@ export default function Home() {
             {/* Pro */}
             <ScrollReveal delay={0.1}>
               <div className="relative bg-[var(--surface-elevated)] border border-violet-500/50 rounded-2xl p-8 text-center flex flex-col h-full min-h-[480px] animate-pulse-glow">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-violet-500 text-white text-xs font-bold px-4 py-1 rounded-full">
-                  Most Popular
+                <div className="flex justify-center mb-4 -mt-4">
+                  <span className="bg-violet-500 text-white text-xs font-bold px-4 py-1 rounded-full">
+                    Most Popular
+                  </span>
                 </div>
                 <div className="font-display text-xl font-bold">Pro</div>
                 <div className="font-display text-5xl font-bold mt-4">$9</div>
