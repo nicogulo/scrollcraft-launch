@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/navbar'
 import CustomCursor from '@/components/custom-cursor'
@@ -14,10 +13,11 @@ const geistSans = localFont({
   fallback: ['system-ui', '-apple-system', 'sans-serif'],
 })
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
+const spaceGrotesk = localFont({
+  src: '../public/space-grotesk-latin.woff2',
   variable: '--font-display',
+  display: 'swap',
+  fallback: ['system-ui', 'sans-serif'],
 })
 
 export const metadata: Metadata = {

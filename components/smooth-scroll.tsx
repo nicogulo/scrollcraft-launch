@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactLenis, useLenis } from 'lenis/react'
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -10,11 +10,9 @@ gsap.registerPlugin(ScrollTrigger)
 export { useLenis }
 
 function GsapLenisSync() {
-  const lenisRef = useRef<ReturnType<typeof useLenis>>(undefined)
-  lenisRef.current = useLenis()
+  const lenis = useLenis()
 
   useEffect(() => {
-    const lenis = lenisRef.current
     if (!lenis) return
 
     lenis.on('scroll', ScrollTrigger.update)
@@ -29,7 +27,7 @@ function GsapLenisSync() {
       lenis.off('scroll', ScrollTrigger.update)
       gsap.ticker.remove(tick)
     }
-  }, [])
+  }, [lenis])
 
   return null
 }

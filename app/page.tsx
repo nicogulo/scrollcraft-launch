@@ -303,7 +303,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="bg-black text-[var(--text-primary)] min-h-screen relative z-[1]">
+    <main className="bg-black text-[var(--text-primary)] min-h-screen relative z-[1] overflow-x-hidden">
 
       {/* ── Section 1: Hero ─────────────────────────────────────────── */}
       <section ref={heroRef} className="min-h-screen flex items-center justify-center px-6 pt-32 pb-20 relative overflow-hidden">
@@ -459,7 +459,7 @@ export default function Home() {
       </section>
 
       {/* ── Section 5: Testimonials (Horizontal Scroll) ──────────────── */}
-      <section ref={testimonialsSectionRef} className="relative min-h-screen">
+      <section ref={testimonialsSectionRef} className="relative min-h-screen overflow-hidden">
         <div className="h-full flex items-center">
           <div ref={testimonialsTrackRef} className="flex items-center gap-8 px-6 md:px-12 will-change-transform">
             {/* Section title as first card */}
